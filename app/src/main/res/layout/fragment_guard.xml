@@ -121,12 +121,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/send_invite" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/send_invite"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:text="Invite"
+        app:strokeColor="#72777E"
         android:elevation="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/green_card" />

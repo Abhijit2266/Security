@@ -39,4 +39,3 @@ public abstract class SecurityDatabase:RoomDatabase() {
         }
 
     }
-}

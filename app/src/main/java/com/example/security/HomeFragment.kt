@@ -86,9 +86,9 @@ class HomeFragment : Fragment() {
 
     private fun insertDatabaseContacts(listContacts: ArrayList<ContactModel>) {
 
-        val database = SecurityDatabase.getDatabase(requireContext())
 
-        database.contactDao().insert()
+
+
 
     }
 

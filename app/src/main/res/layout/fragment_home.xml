@@ -24,7 +24,7 @@
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_margin="@dimen/dimen_16"
-        android:src="@drawable/navigation"
+        android:src="@drawable/ic_android_locator"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -33,7 +33,7 @@
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_margin="@dimen/dimen_16"
-        android:src="@drawable/dots"
+        android:src="@drawable/ic_dots"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

@@ -3,14 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
     android:padding="@dimen/dimen_8">
 
     <ImageView
         android:id="@+id/img_usr"
         android:layout_width="64dp"
         android:layout_height="64dp"
-        android:src="@drawable/profile"
+        android:src="@drawable/ic_android_profile"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -20,7 +19,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:text="Atharva"
+        android:text="@string/atharva"
         android:textColor="@color/darker_gray"
         android:textSize="@dimen/dimen_16_sp"
         app:layout_constraintEnd_toEndOf="@id/img_usr"
@@ -41,8 +40,8 @@
             android:id="@+id/invite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="INVITE"
-            android:textColor="@color/white"
+            android:text="@string/invite"
+            android:textColor="@android:color/system_neutral1_700"
             android:textSize="@dimen/dimen_16_sp"
             app:layout_constraintEnd_toEndOf="@id/img_usr"
             app:layout_constraintStart_toStartOf="@id/img_usr"
