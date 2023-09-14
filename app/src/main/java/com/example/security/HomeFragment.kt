@@ -46,6 +46,17 @@ class HomeFragment : Fragment() {
         recycler.layoutManager = LinearLayoutManager(requireContext())
         recycler.adapter = adapter
 
+
+
+
+
+
+
+
+
+
+
+
         Log.d("FetchContact22", "fetchContacts: start")
 
         Log.d("FetchContact22", "fetchContacts: coroutine start ${listContacts.size}")
@@ -55,7 +66,7 @@ class HomeFragment : Fragment() {
         CoroutineScope(Dispatchers.IO).launch {
             Log.d("FetchContact22", "fetchContacts: coroutine start")
             listContacts.addAll(fetchContacts())
-
+        insertDatabaseContacts(listContacts)
             withContext(Dispatchers.Main){
                 inviteAdapter.notifyDataSetChanged()
             }
@@ -72,6 +83,15 @@ class HomeFragment : Fragment() {
 
 
     }
+
+    private fun insertDatabaseContacts(listContacts: ArrayList<ContactModel>) {
+
+        val database = SecurityDatabase.getDatabase(requireContext())
+
+        database.contactDao().insert()
+
+    }
+
     private fun fetchContacts(): ArrayList<ContactModel> {
         Log.d("FetchContact22", "fetchContacts: start")
         val cr = requireActivity().contentResolver

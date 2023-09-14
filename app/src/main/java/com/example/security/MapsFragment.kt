@@ -1,6 +1,7 @@
 package com.example.security
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import androidx.fragment.app.Fragment
 
@@ -19,6 +20,7 @@ import com.google.android.gms.maps.model.MarkerOptions
 
 class MapsFragment : Fragment() {
 
+    @SuppressLint("MissingPermission")
     private val callback = OnMapReadyCallback { googleMap ->
         /**
          * Manipulates the map once available.
@@ -35,7 +37,7 @@ class MapsFragment : Fragment() {
         if (ContextCompat.checkSelfPermission(requireContext(),Manifest.permission.ACCESS_FINE_LOCATION)== PackageManager.PERMISSION_GRANTED){
 
         }
-        googleMap.isMyLocationEnable=true
+        googleMap.isMyLocationEnabled = true
     }
 
     override fun onCreateView(

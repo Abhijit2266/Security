@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "com.example.security"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.example.security"
@@ -39,7 +39,7 @@ android {
 
 dependencies {
 
-    implementation("androidx.core:core-ktx:1.9.0")
+    implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.9.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
@@ -48,11 +48,11 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     implementation("androidx.fragment:fragment-ktx:1.6.1")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9")
-    implementation ("com.google.android.material:material:1.8.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
+    implementation ("com.google.android.material:material:1.9.0")
 
     // Room components
     implementation ("androidx.room:room-ktx:2.5.2")
-    implementation("androidx.room:room-compiler:2.5.2")
+    annotationProcessor("androidx.room:room-compiler:2.5.2")
     implementation ("androidx.room:room-testing:2.5.2")
 }
