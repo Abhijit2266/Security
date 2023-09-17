@@ -42,18 +42,10 @@ class HomeFragment : Fragment() {
 
         )
         val adapter = MemberAdapter(listMember)
+
         val recycler = requireView().findViewById<RecyclerView>(R.id.recycler_member)
         recycler.layoutManager = LinearLayoutManager(requireContext())
         recycler.adapter = adapter
-
-
-
-
-
-
-
-
-
 
 
 
@@ -66,7 +58,9 @@ class HomeFragment : Fragment() {
         CoroutineScope(Dispatchers.IO).launch {
             Log.d("FetchContact22", "fetchContacts: coroutine start")
             listContacts.addAll(fetchContacts())
-        insertDatabaseContacts(listContacts)
+
+            insertDatabaseContacts(listContacts)
+
             withContext(Dispatchers.Main){
                 inviteAdapter.notifyDataSetChanged()
             }
@@ -84,13 +78,18 @@ class HomeFragment : Fragment() {
 
     }
 
-    private fun insertDatabaseContacts(listContacts: ArrayList<ContactModel>) {
+    private fun insertDatabaseContacts(listContacts: java.util.ArrayList<ContactModel>) {
+        TODO("Not yet implemented")
+    }
 
+    private suspend fun insertDatabaseContacts() {
+       val database = SecurityDatabase.getDatabase(requireContext())
 
-
-
+        database.contactDao().insertAll(listContacts)
 
     }
+
+
 
     private fun fetchContacts(): ArrayList<ContactModel> {
         Log.d("FetchContact22", "fetchContacts: start")

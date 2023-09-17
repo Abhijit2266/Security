@@ -13,11 +13,12 @@ public abstract class SecurityDatabase:RoomDatabase() {
 
 
     companion object{
+
+
+
         @Volatile
         private var INSTANCE:SecurityDatabase? = null
 
-
-        }
         fun getDatabase(context:Context): SecurityDatabase {
 
             INSTANCE?.let {
@@ -31,9 +32,14 @@ public abstract class SecurityDatabase:RoomDatabase() {
                 ).build()
 
                 INSTANCE = instance
+
                 instance
 
             }
+
+
+        }
+
 
 
         }

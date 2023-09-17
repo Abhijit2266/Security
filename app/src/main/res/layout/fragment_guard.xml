@@ -127,6 +127,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:text="Invite"
+        android:clickable="true"
         app:strokeColor="#72777E"
         android:elevation="8dp"
         app:layout_constraintEnd_toEndOf="parent"
