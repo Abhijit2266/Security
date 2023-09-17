@@ -1,28 +1,25 @@
 package com.example.security
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.provider.ContactsContract
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class HomeFragment : Fragment() {
+    lateinit var  inviteAdapter :InviteAdapter
     private val listContacts:ArrayList<ContactModel> = ArrayList()
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -30,7 +27,6 @@ class HomeFragment : Fragment() {
 
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -39,7 +35,6 @@ class HomeFragment : Fragment() {
             MemberModel("Omkar"),
             MemberModel("Abhishek"),
             MemberModel("Aaku"),
-
         )
         val adapter = MemberAdapter(listMember)
 
@@ -47,50 +42,43 @@ class HomeFragment : Fragment() {
         recycler.layoutManager = LinearLayoutManager(requireContext())
         recycler.adapter = adapter
 
-
-
         Log.d("FetchContact22", "fetchContacts: start")
 
         Log.d("FetchContact22", "fetchContacts: coroutine start ${listContacts.size}")
-        val inviteAdapter = InviteAdapter(listContacts)
+        inviteAdapter = InviteAdapter(listContacts)
+        fetchDatabaseContacts()
         Log.d("FetchContact22", "fetchContacts: end")
 
         CoroutineScope(Dispatchers.IO).launch {
             Log.d("FetchContact22", "fetchContacts: coroutine start")
-            listContacts.addAll(fetchContacts())
+            insertDatabaseContacts(fetchContacts())
 
-            insertDatabaseContacts(listContacts)
-
-            withContext(Dispatchers.Main){
-                inviteAdapter.notifyDataSetChanged()
-            }
             Log.d("FetchContact22", "fetchContacts: coroutine end ${listContacts.size}")
 
-
-
         }
-
-
         val initeRecycler = requireView().findViewById<RecyclerView>(R.id.recycler_invite)
         initeRecycler.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
         initeRecycler.adapter=inviteAdapter
-
-
     }
+    private fun fetchDatabaseContacts() {
+        val database = SecurityDatabase.getDatabase(requireContext())
 
-    private fun insertDatabaseContacts(listContacts: java.util.ArrayList<ContactModel>) {
-        TODO("Not yet implemented")
+         database.contactDao().getAllContact().observe(viewLifecycleOwner){
+             Log.d("FetchContact22","fetchDatabaseContacts:")
+             listContacts.clear()
+             listContacts.addAll(it)
+
+             inviteAdapter.notifyDataSetChanged()
+
+         }
     }
-
-    private suspend fun insertDatabaseContacts() {
+    private suspend fun insertDatabaseContacts(listContacts: ArrayList<ContactModel>) {
        val database = SecurityDatabase.getDatabase(requireContext())
 
-        database.contactDao().insertAll(listContacts)
-
+        database.contactDao().insertAll(this.listContacts)
     }
 
-
-
+    @SuppressLint("Range")
     private fun fetchContacts(): ArrayList<ContactModel> {
         Log.d("FetchContact22", "fetchContacts: start")
         val cr = requireActivity().contentResolver
@@ -120,25 +108,18 @@ class HomeFragment : Fragment() {
                             listContacts.add(ContactModel(name,phone))
                         }
                         pCur.close()
-
                     }
                 }
             }
             if (cursor!=null){
                 cursor.close()
-
             }
         }
         Log.d("FetchContact22", "fetchContacts: end")
         return listContacts
     }
-
     companion object {
-
-
         @JvmStatic
         fun newInstance() = HomeFragment()
-
-
     }
 }
