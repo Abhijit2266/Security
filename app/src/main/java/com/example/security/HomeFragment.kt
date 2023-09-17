@@ -1,6 +1,7 @@
 package com.example.security
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
 import android.provider.ContactsContract
 import android.util.Log
@@ -16,10 +17,8 @@ import kotlinx.coroutines.launch
 
 class HomeFragment : Fragment() {
     lateinit var  inviteAdapter :InviteAdapter
+    lateinit var mContext: Context
     private val listContacts:ArrayList<ContactModel> = ArrayList()
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -29,12 +28,12 @@ class HomeFragment : Fragment() {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val listMember = listOf<MemberModel>(
-            MemberModel("Abhijit"),
-            MemberModel("Omkar"),
-            MemberModel("Abhishek"),
-            MemberModel("Aaku"),
+        Log.d("FetchContact22", "onViewCreated: ")
+        val listMember = listOf(
+            MemberModel("null"),
+            MemberModel("null"),
+            MemberModel("null"),
+            MemberModel("null"),
         )
         val adapter = MemberAdapter(listMember)
 
@@ -51,7 +50,7 @@ class HomeFragment : Fragment() {
 
         CoroutineScope(Dispatchers.IO).launch {
             Log.d("FetchContact22", "fetchContacts: coroutine start")
-            insertDatabaseContacts(fetchContacts())
+            insertDatabaseContacts()
 
             Log.d("FetchContact22", "fetchContacts: coroutine end ${listContacts.size}")
 
@@ -60,6 +59,7 @@ class HomeFragment : Fragment() {
         initeRecycler.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
         initeRecycler.adapter=inviteAdapter
     }
+    @SuppressLint("NotifyDataSetChanged")
     private fun fetchDatabaseContacts() {
         val database = SecurityDatabase.getDatabase(requireContext())
 
@@ -72,7 +72,7 @@ class HomeFragment : Fragment() {
 
          }
     }
-    private suspend fun insertDatabaseContacts(listContacts: ArrayList<ContactModel>) {
+    private suspend fun insertDatabaseContacts() {
        val database = SecurityDatabase.getDatabase(requireContext())
 
         database.contactDao().insertAll(this.listContacts)
@@ -87,7 +87,7 @@ class HomeFragment : Fragment() {
 
         if (cursor!=null&& cursor.count>0){
 
-            while (cursor!=null && cursor.moveToNext()){
+            while (cursor.moveToNext()){
                 val id = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID))
                 val name = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME))
                 val hasPhoneNumber = cursor.getInt(cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER))
@@ -102,7 +102,7 @@ class HomeFragment : Fragment() {
                         ""
                     )
                     if (pCur !=null && pCur.count>0){
-                        while (pCur!=null && pCur.moveToNext()){
+                        while (pCur.moveToNext()){
                             val phone = pCur.getString(pCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
 
                             listContacts.add(ContactModel(name,phone))
@@ -111,9 +111,7 @@ class HomeFragment : Fragment() {
                     }
                 }
             }
-            if (cursor!=null){
-                cursor.close()
-            }
+            cursor.close()
         }
         Log.d("FetchContact22", "fetchContacts: end")
         return listContacts
